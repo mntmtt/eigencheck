@@ -14,7 +14,15 @@ if flag == 1
 end
 % Step 2: Estimate multiplicity m using the last steps
 %|sk|/|sk+1| ≈ (m − 1)/m.
-m = estimatem(steps);
+% m = estimatem(steps);
+%sk/sk1 = (m-1)/m;
+%m(sk/sk1) = m - 1;
+%(sk/sk1)m - m =- 1;
+%m(sk/sk1 - 1) = -1;
+%m = -1 / (sk/sk1 - 1);
+m = 1 ./ (1 - steps(length(steps)) ./ steps(length(steps) - 1));
+fprintf("Estimated m: %f\n", m);
+
 % Step 3: Modified Newton's method for 'maxit' steps
 % If not converged, increment m and repeat
 for i = 1:9    %10*maxIt calls so 10*maxit - 2 (the previous 2)
