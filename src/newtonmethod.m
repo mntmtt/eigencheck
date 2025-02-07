@@ -5,9 +5,10 @@ x = x0;
 for k = 1:maxiter
     xk = x;
     [~,g] = evaluatecharacteristic(xk,A);
-    x = xk - m*g; %Newton's method        % -g or +g?????
+    x = xk + m*g; %Newton's method        % -g or +g?????
     %step test
     step = abs(x-xk);
+    fprintf("Step at iteration %d: %f\n", k, step);
     if step < toll
         flag = 1; %converged
         return;

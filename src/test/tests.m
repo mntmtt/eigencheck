@@ -1,5 +1,7 @@
 runtests('testmatrixgen');
 
+runtests('testswaprows');
+
 runtests('testgeomult');
 
-runtests('testswaprows');
+runtests('testmultalg');
