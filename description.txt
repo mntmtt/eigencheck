@@ -1,0 +1,181 @@
+PROGETTO 2: MOLTEPLICITÀ ALGEBRICA E GEOMETRICA DEGLI
+AUTOVALORI DI UNA MATRICE
+1. Contesto e fine
+Sia A una matrice reale n × n, gli autovalori di A hanno due caratterizzazioni:
+• λ ∈ C è autovalore di A se il sistema (A − λI)x = 0 ammette soluzioni non nulle. In tal
+caso la dimensione dello spazio vettoriale delle soluzioni del sistema è detta molteplicità
+geometrica dell’ autovalore λ. Denotiamo tale quantità con multgeo(λ), dunque
+(1) mult
+geo (λ) := n − rk(A − λI) .
+• λ ∈ C è autovalore di A se λ è radice dell’equazione fA(x) = 0, dove fA(x) := det(A − λI).
+In tal caso la molteplicità della radice è detta molteplicità algebrica di λ. Denotiamo tale
+quantità con multalg(λ), dunque
+(2) mult
+alg (λ) := {m ∈ N : 0 = fA(λ) = f ′
+A(λ) = · · · = f (m−1)
+A (λ), 0̸ = f (m)
+A (λ)} .
+Una matrice risulta diagonalizzabile, ovvero A = P −1ΛP con P matrice invertibile e Λ matrice
+diagonale con gli autovalori sulla diagonale, se e soltanto quando per ogni suo autovalore vale
+mult
+geo (λ) = mult
+alg (λ).
+Vogliamo sviluppare un programma in grado di effettuare un controllo sull’effettiva diagonalizz-
+bilità di una matrice data.
+• Per il calcolo della molteplicità geometrica ci basiamo sulla fattorizzazione LU. L’algoritmo
+LU (con pivoting parziale) produrrà infatti una matrice U con tante righe "nulle" quanto è
+la dimensione dello spazio delle soluzioni di (A − λI)x = 0 (perchè?). Tale controllo si può
+effettuare anche sui soli elementi diagonali di U e va impostata una tolleranza per contare,
+ad esempio, gli elementi
+{i ∈ {1, . . . , n} : Ui,i : |Ui,i| < toll}.
+• Per il calcolo della molteplicità algebrica di un autovalore possiamo utilizzare le proprietà
+di convergenza del metodo di Newton. Sappiamo infatti che il metodo di Newton, qualora
+volessimo approssimare una radice di ordine m converge (localmente) con velocità lineare e
+costante asintotica pari ad (m − 1)/m (perchè?), ovvero limk→+∞ |sk|/|sk+1| = (m − 1)/m,
+dove si è denotato con sk lo step. Se siamo sufficientemente vicini alla radice avremmo
+dunque
+(3) |sk|/|sk+1| ≈ (m − 1)/m.
+2. Function richieste
+2.1. Calcolo di multgeo(λ). Vogliamo creare una function multgeo avente chiamata k=multgeo(A,l,toll)
+con parametri di input
+• A matrice quadrata reale o complessa di cui si vogliono calcolare le dimensioni dell’ autospa-
+zio;
+• l scalare complesso, è l’autovalore di cui si vuole calcolare la molteplicità algebrica;
+1
+2
+• toll scalare reale positivo utilizzato per verificare la condizione di nullità degli elementi
+diagonali della U
+ed output
+• k naturale positivo, dimensione dell’autospazio.
+Tale function deve chiamare la fattorizzazione LU di matlab e calcolare quanti elementi diagonali di
+U risultano essere in modulo sotto la soglia passata dall’utente.
+2.2. Calcolo di fA(z) e f ′
+A(z). Nell’utilizzo del metodo di Newton necessitiamo del calcolo di fA(z)
+e f ′
+A(z) per ogni z ∈ C. Si noti che la formula di Jacobi consente il calcolo di tale derivata, vale
+infatti la seguente:
+d
+dz det(B(z)) = det(B(z)) trace
+
+B−1(z) d
+dz B(z)
+
+,
+dove trace B = Pn
+i=1 Bi,i. Notiamo che nel Metodo di Newton f ′
+A comparirà solo nella forma
+fA(z)/f ′
+A(z), per ragioni di stabilità è dunque meglio calcolare direttamente tale quantità e non
+fA(z) e f ′
+A(z) separatamente. Avremo dunqe
+(4) gA(z) := − fA(z)
+f ′
+A(z) = −1
+trace (A − zI)−1 d
+dz (A − zI) = 1
+trace [(A − zI)−1] .
+Ricordiamo inoltre che se P B = LU , dove P è matrice di permutazione e L ed U sono i fattori
+della fattorizzazione LU, abbiamo
+det P det(B) = det U =
+nY
+i=1
+Ui,i.
+Inoltre det P = ±1, dove vale 1 se per portare P nella matrice identica serve un numero pari di
+scambi di riga, mentre vale −1 in caso contrario. Quindi possiamo calcolare det P con un ciclo sulle
+colonne che ad ogni passo effettua (se necessario!) uno scambio di righe per portare, al j-esimo
+passo, l’unico 1 presente nella j-esima colonna in posizione (j, j). Se il numero di scambi effettuati
+è s, allora avremo det P = (−1)s.
+Vogliamo implementare una function myobjective avente chiamata [f,g]=myobjective(z,A)
+che, per ogni numero complesso z restituisca fA(z) e gA(z).
+• Si consideri la fattorizzazione LU con pivoting parziale di B(z) := A−zI, si calcoli det(A−zI)
+come det U/ det P calcolati come descritto sopra.
+• Si calcoli gA(z) come descritto nella (4) utilizzando la fattorizzazione LU precedentemente
+calcolata al fine di invertire la matrice B(z).
+2.3. Calcolo di multalg λ. Vogliamo creare una function multalg avente chiamata
+[l,m,flag]=multalg(A,l0,toll,it,maxit) con parametri di input
+• A matrice quadrata reale o complessa di cui si vogliono calcolare le dimensioni dell’ autospa-
+zio;
+• l0 punto di partenza del metodo di Newton
+• toll tolleranza per il test d’arresto dello scarto
+• it intero maggiore o uguale a 2
+• maxit intero positivo maggiore di it
+ed output
+• l autovalore calcolato
+• m naturale positivo, molteplicità
+• flag 1 per successo, 0 per errore
+La function dovrà implementare il seguente algoritmo
+3
+• Vengano effettuati it passi del metodo di Newton partendo da l0.Se il metodo di Newton è
+uscito per raggiungimento della tolleranza allora si pone m=1 e si esce con flag=1, altrimenti
+si prosegue.
+• Venga preso un guess per m utilizzando gli ultimi due passi del metodo di Newton e l’euristica
+(3).
+• Si riparta da l0 e si inizializzi il metodo di Newton modificato (i.e., zk+1 = zk − mgA(zk))
+con al più maxit passi
+• se il criterio dello step risula soddisfatto prima di raggiungere il numero massimo di passi
+consentiti si esca con flag=1, altrimenti si incrementi m di un unità e si ripeta l’operazione.
+Se dopo un numero totale di chiamate a myobjective di 10maxit non si è soddisfatto il
+criterio si esca con flag=0.
+3. Sperimentazione
+Per sperimentare il programma sviluppato si creino alcuni test "sintetici" e si analizzino i risultati
+eventualmente producendo grafici esemplificativi.
+Evidenziamo qui una procedura per creare diverse matrici test. Possiamo creare matrici con
+autovalori noti e molteplicità algebriche e geometriche note usando la struttura
+A = QtJQ
+dove Q è una matrice ortogonale (per ottenerne una ad esempio prendiamo una matrice random e
+facciamo la fattorizzazione QR) e J è una matrice diagonale a blocchi di Jordan. Una tale matrice
+è definita come matrice diagonale a blocchi
+J =
+
+
+
+
+
+Jk1 (λ1) O . . .
+O Jk2 (λ2) . . .
+... ... ...
+O . . . Jkp (λp)
+
+
+
+
+ ,
+dove può anche essere λi = λj per indici i e j diversi, e dove ciascun blocco diagonale è della forma
+Jk(λ) :=
+
+
+
+λ k = 1
+
+
+
+
+
+
+
+
+λ 1 0 . . . 0
+0 λ 1 0 . . .
+... ... ... ... ...
+0 . . . . . . λ 1
+0 . . . . . . 0 λ
+
+
+
+
+
+
+
+
+∈ Mk,k(C) k > 1 .
+La matrice J ha allora autovalori λ1, . . . , λp aventi molteplicità geometrica
+mult
+geo (λi) = Card{j ∈ {1, 2, . . . , p} : λi = λj },
+e molteplicità algebrica
+mult
+alg (λi) = X
+{j∈{1,2,...,p}:λi=λj }
+kp.
+Si effettuino test con matrici create ad hoc secondo questa procedura individuando i limiti del
+software implementato. Si considerino autovalori ben spazziati oppure clusterizzati e di molteplicità
+bassa (1-2) o alta (3-7).

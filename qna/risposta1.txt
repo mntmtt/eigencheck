@@ -1,0 +1,9 @@
+Per il calcolo della molteplicità geometrica ci basiamo sulla fattorizzazione LU. L’algoritmo
+LU (con pivoting parziale) produrrà infatti una matrice U con tante righe "nulle" quanto è
+la dimensione dello spazio delle soluzioni di (A − λI)x = 0 (perchè?)
+
+
+Anzitutto (A - λI)x = 0 è il sistema che rappresenta lo spazio nullo di A - λI quindi l'insieme di vettori x tali che (A - λI)x = 0.
+Da (A - λI)x = 0 <=> Ax = λx deduciamo che rappresenta anche l'autospazio dell'autovalore λ relativo ad A. Sappiamo che la molteplicità geometrica
+di un autovalore è la dimensione dell'autospazio di quell'autovalore e dunque coincide con la dimensione dello spazio nullo di A - λI. La dimensione
+dello spazio nullo di A - λI è il numero di righe nulle (o n-rk(A - λI)).
