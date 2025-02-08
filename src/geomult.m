@@ -24,6 +24,6 @@ end
 [~, U, ~] = lu(A - eigenvalue * eye(size(A)));  % Fattorizzazione LU con pivoting (di A - autovalore * identità(delle dimesioni di A))
 
 geometricMult = sum(abs(diag(U)) < tolerance);  % Conteggio degli zeri sulla diagonale di U (faccio abs(colonna di elementi diagonali)) < toll
-% geometricMult è corretta poichè LU non scambia le righe di U quindi trova sempre le colonne dominanti hanno sempre il valore sulla diagonale != 0
+% geometricMult è corretta poichè LU non scambia le righe di U quindi trova sempre le colonne dominanti essendo che hanno sempre il valore sulla diagonale != 0
 
 end

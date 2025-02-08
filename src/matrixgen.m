@@ -12,26 +12,11 @@ function A = matrixgen(eigenvalues, geomMults, algMults)
 % Output:
 %   A - Generated square matrix with desired properties
 
-% Check for consistent input sizes
-if length(eigenvalues) ~= length(geomMults) || length(geomMults) ~= length(algMults)
-    error('Input vectors eigenvalues, geomMults, and algMults must have the same length.');
-end
+% Validate input sizes
+validateInputSizes(eigenvalues, geomMults, algMults);
 
 % Build the Jordan block matrix J
-J = [];
-% tanti blocchi quanto geometrica
-for n = 1:length(eigenvalues)
-    remainingAlg = algMults(n);
-    lambda = eigenvalues(n);
-    for i = 1:(geomMults(n)-1)
-        dim = floor(algMults(n)/geomMults(n)); %calcolo una dimensione "media" del blocco su cui disporre equamente le molteplicità algebriche di lambda
-        remainingAlg = remainingAlg - dim; %distribuisco le molteplicità algebriche sui blocchi geometrici
-        Jk = diag(lambda * ones(1, dim)) + diag(ones(dim-1, 1),1); %aggiungo in fondo alla diagonale il nuovo blocco ingrandento J
-        J = blkdiag(J, Jk);%allungo la diagonale aggiungendo il nuovo blocco e mettendo zeri dalle altre parti
-    end
-    Jk = diag(lambda * ones(1, remainingAlg)) + diag(ones(remainingAlg - 1, 1),1);
-    J = blkdiag(J, Jk);
-end
+J = buildJordanBlockMatrix(eigenvalues, geomMults, algMults);
 
 % Generate a random orthogonal matrix Q using QR decomposition
 [Q, ~] = qr(randn(size(J)));
@@ -41,4 +26,31 @@ A = Q' * J * Q;
 
 end
 
+function validateInputSizes(eigenvalues, geomMults, algMults)
+% Validate that input vectors have the same length
+if length(eigenvalues) ~= length(geomMults) || length(geomMults) ~= length(algMults)
+    error('Input vectors eigenvalues, geomMults, and algMults must have the same length.');
+end
+end
 
+function J = buildJordanBlockMatrix(eigenvalues, geomMults, algMults)
+% Build the Jordan block matrix J based on eigenvalues, geometric and algebraic multiplicities
+J = [];
+for n = 1:length(eigenvalues)
+    remainingAlg = algMults(n);
+    lambda = eigenvalues(n);
+    for i = 1:(geomMults(n) - 1)
+        dim = floor(algMults(n) / geomMults(n));
+        remainingAlg = remainingAlg - dim;
+        Jk = createJordanBlock(lambda, dim);
+        J = blkdiag(J, Jk);
+    end
+    Jk = createJordanBlock(lambda, remainingAlg);
+    J = blkdiag(J, Jk);
+end
+end
+
+function Jk = createJordanBlock(lambda, dim)
+% Create a Jordan block of size dim with eigenvalue lambda
+Jk = diag(lambda * ones(1, dim)) + diag(ones(dim - 1, 1), 1);
+end

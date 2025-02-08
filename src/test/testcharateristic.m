@@ -6,11 +6,10 @@ z = 10;
 M = [-2,0,2i;0,-8,0;2i,0,-6];
 MZI = M - (10*eye(size(M,1)));
 
-detM = @(x) (-8-x).*(x+4)^2;
 detMZI = @(x) det(M - (x*eye(size(M,1))));
-ddetMZI = detMZI(z) * trace(inv(MZI) .* (-1));
+d_detMZI = detMZI(z) * trace(inv(MZI) .* (-1));
 
-exptected_g = - detMZI(z)/ddetMZI;
+exptected_g = - detMZI(z)/d_detMZI;
 
 [f,g] = evaluatecharacteristic(10,M);
 
