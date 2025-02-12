@@ -19,8 +19,8 @@ validate_input_sizes(A, eigenvalue, zero_tolerance);
 
 [~, U, ~] = lu(A - eigenvalue * eye(size(A)));
 
-% Conteggio degli zeri sulla diagonale di U (faccio abs(colonna di elementi diagonali)) < toll
-% geometricMult è corretta poichè LU non scambia le righe di U quindi trova sempre le colonne dominanti essendo che hanno sempre il valore sulla diagonale != 0
+% Count of zeros on the diagonal of U (do abs(column of diagonal elements)) < toll
+% geometricMult is correct because LU does not exchange the rows of U therefore it always finds the dominant columns since they always have the value on the diagonal != 0
 geometric_mult = sum(abs(diag(U)) < zero_tolerance);
 
 end

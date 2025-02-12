@@ -1,5 +1,5 @@
 function compute_and_show(title, exp_eigenvalues, exp_alg_mults, exp_geom_mults, ...
-    input_rel_err, step_tol, max_iter, mod_max_iter, zero_tol)
+    input_rel_err, step_tol, max_iter, mod_max_iter, zero_tol, do_hold_on)
 
 M = matrix_generator(exp_eigenvalues, exp_geom_mults, exp_alg_mults);
 
@@ -42,9 +42,18 @@ x_range = linspace(min(exp_eigenvalues) - distance * 0.1, max(exp_eigenvalues) +
 y_values = f(x_range);
 
 figure(1);
-plot(x_range, y_values, 'b-', 'LineWidth', 2);
+color = 'r-';
+if do_hold_on
+    color = 'b-';
+end
+plot(x_range, y_values, color, 'LineWidth', 2);
 xlabel('x');
 ylabel('det(M - xI)');
 grid on;
+if do_hold_on
+    hold on;
+else
+    hold off;
+end
 
 end

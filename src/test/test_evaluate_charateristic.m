@@ -1,5 +1,4 @@
 clear;
-clc;
 
 z = 10;
 

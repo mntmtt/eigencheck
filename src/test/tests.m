@@ -1,7 +1,9 @@
-runtests('testmatrixgen');
+runtests('test_algebraic_multiplicity');
 
-runtests('testswaprows');
+runtests('test_swaps_to_identity');
 
-runtests('testgeomult');
+runtests('test_evaluate_characteristic');
 
-runtests('testmultalg');
+runtests('test_geometric_multiplicity');
+
+runtests('test_matrix_generator');

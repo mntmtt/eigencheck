@@ -6,4 +6,6 @@ la dimensione dello spazio delle soluzioni di (A − λI)x = 0 (perchè?)
 Anzitutto (A - λI)x = 0 è il sistema che rappresenta lo spazio nullo di A - λI quindi l'insieme di vettori x tali che (A - λI)x = 0.
 Da (A - λI)x = 0 <=> Ax = λx deduciamo che rappresenta anche l'autospazio dell'autovalore λ relativo ad A. Sappiamo che la molteplicità geometrica
 di un autovalore è la dimensione dell'autospazio di quell'autovalore e dunque coincide con la dimensione dello spazio nullo di A - λI. La dimensione
-dello spazio nullo di A - λI è il numero di righe nulle (o n-rk(A - λI)).
+dello spazio nullo di A - λI è il numero di righe nulle (o n-rk(A - λI)). Sappiamo che nella fattorizzazione LU la matrice U mantiene il rango della
+matrice originale e dunque anche il numero di righe nulle. Essendo la fattorizzazione con pivoting, se troviamo sulla diagonale un elemento nullo allora
+per forza anche la riga sarà interamente nulla.
