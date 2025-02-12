@@ -17,15 +17,12 @@ function [est_eigenvalue, est_multiplicity, success] = algebraic_multiplicity(A,
 
 validate_input_sizes(A, x0, step_tolerance, non_mod_maxit, modified_maxit);
 
-% Step 1: Newton's method for 'it' steps
-
 est_multiplicity = 1;
 [steps, success, est_eigenvalue] = newtons_method(A, x0, step_tolerance, non_mod_maxit, est_multiplicity);
 if success == 1
     return;
 end
 
-% Step 2: Estimate multiplicity m using the last steps
 % |sk|/|sk+1| ≈ (m − 1)/m.
 % m = estimatem(steps);
 % sk/sk1 = (m-1)/m;

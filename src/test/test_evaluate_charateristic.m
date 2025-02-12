@@ -10,7 +10,7 @@ d_detMZI = detMZI(z) * trace(inv(MZI) .* (-1));
 
 exptected_g = - detMZI(z)/d_detMZI;
 
-[f,g] = evaluatecharacteristic(10,M);
+[f,g] = evaluate_characteristic(10,M);
 
 fprintf('Test 1 - f: expected value: %d, actual value: %d\n',detMZI(z),f);
 assert(isequal(f,detMZI(z)),'Test failed');
