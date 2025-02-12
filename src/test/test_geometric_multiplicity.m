@@ -1,6 +1,5 @@
 clear;
 
-% Test 1
 fprintf("Test case 1\n")
 eigenvalues = [10, 8];
 geomults = [2, 2];
@@ -14,7 +13,6 @@ for n = 1:length(eigenvalues)
     disp("PASS");
 end
 
-% Test 2
 fprintf("\nTest case 2\n")
 eigenvalues = [20, 8 ,5 ,7];
 geomults = [2, 3, 5, 6];

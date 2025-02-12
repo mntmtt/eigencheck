@@ -23,13 +23,6 @@ detP = (-1) ^ swaps_to_identity(P);
 detB = detU / detP;
 f = detB;
 
-% PB = LU
-% B = P^-1 * LU
-% we search for X s.t. XB=I (X is the inverse of B)
-% (P^-1)LUX = I        => %(B)X = I
-% LUX = P * I
-% LY = P * I
-% UX = Y
 I = eye(size(B));
 Y = L \ (P * I);
 invB = U \ Y;

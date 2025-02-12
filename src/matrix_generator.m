@@ -46,7 +46,4 @@ end
 
 function jordan_block = create_jordan_block(lambda, dim)
 jordan_block = diag(lambda * ones(1, dim)) + diag(ones(dim - 1, 1), 1);
-% the first diag creates a matrix = lambda * eye,
-% the second diag creates a matrix with 1s on the superdiagonal
-% (diag of a column of dimension dim - 1 shifted right by 1)
 end

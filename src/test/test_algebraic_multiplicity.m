@@ -1,6 +1,5 @@
 clear;
 
-% Test 1
 disp("\nTest case 1\n")
 eigenvalues = (600);
 geomults = (1);

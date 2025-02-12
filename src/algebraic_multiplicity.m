@@ -23,14 +23,6 @@ if success == 1
     return;
 end
 
-% |sk|/|sk+1| ≈ (m − 1)/m.
-% m = estimatem(steps);
-% sk/sk1 = (m-1)/m;
-% m(sk/sk1) = m - 1;
-% (sk/sk1)m - m =- 1;
-% m(sk/sk1 - 1) = -1;
-% m = -1 / (sk/sk1 - 1);
-
 last_step = steps(length(steps));
 penultimate_step = steps(length(steps) - 1);
 est_multiplicity = 1 ./ (1 - last_step ./ penultimate_step);

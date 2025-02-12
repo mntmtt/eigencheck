@@ -13,15 +13,11 @@ function geometric_mult = geometric_multiplicity(A, eigenvalue, zero_tolerance)
 %
 % Output arguments:
 %   geometric_mult - Geometric multiplicity of the eigenvalue
-%
 
 validate_input_sizes(A, eigenvalue, zero_tolerance);
 
 [~, U, ~] = lu(A - eigenvalue * eye(size(A)));
 
-% geometric_mult is correct because LU does not exchange the rows of U
-% therefore it always finds the dominant columns since they always have
-% the value on the diagonal != 0
 geometric_mult = sum(abs(diag(U)) < zero_tolerance);
 
 end
