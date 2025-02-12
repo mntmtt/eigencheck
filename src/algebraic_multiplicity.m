@@ -1,19 +1,4 @@
 function [est_eigenvalue, est_multiplicity, success] = algebraic_multiplicity(A, x0, step_tolerance, non_mod_maxit, modified_maxit)
-% ALGEBRAIC_MULTIPLICITY Look for an eigenvalue and guess its algebraic multiplicity
-%
-%   [est_eigenvalue, est_multiplicity, flag] = ALGEBRAIC_MULTIPLICITY(A, x0, toll, it, maxit)
-%
-%   Input arguments:
-%       A - square matrix
-%       x0 - starting point for Newton's method
-%       step_tolerance - tolerance for stepping criterion
-%       non_mod_maxit - number of steps for non-modified Newton's method (int >= 2)
-%       modified_maxit - number of steps for non-modified Newton's method (int > it)
-%
-%   Output:
-%       est_eigenvalue - the estimated eigenvalue
-%       est_multiplicity - the estimated algebraic multiplicity of x
-%       success - 0 if the method converged, 1 otherwise - it's not guaranteed that the method converges to the right values
 
 validate_input_sizes(A, x0, step_tolerance, non_mod_maxit, modified_maxit);
 
@@ -22,14 +7,6 @@ est_multiplicity = 1;
 if success == 1
     return;
 end
-
-% |sk|/|sk+1| ≈ (m − 1)/m.
-% m = estimatem(steps);
-% sk/sk1 = (m-1)/m;
-% m(sk/sk1) = m - 1;
-% (sk/sk1)m - m =- 1;
-% m(sk/sk1 - 1) = -1;
-% m = -1 / (sk/sk1 - 1);
 
 last_step = steps(length(steps));
 penultimate_step = steps(length(steps) - 1);

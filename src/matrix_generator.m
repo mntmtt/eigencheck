@@ -1,17 +1,4 @@
 function A = matrix_generator(eigenvalues, geometric_mults, algebraic_mults)
-% MATRIX_GENERATOR Generates a test matrix with specified eigenvalues
-% and corresponding geometric and algebraic multiplicities
-%
-% A = MATRIX_GENERATOR(eigenvalues, geometric_mults, algebraic_mults)
-%
-% Input Arguments:
-%   eigenvalues - Vector of distinct eigenvalues
-%   geometric_mults - Vector of geometric multiplicities for each eigenvalue
-%   algebraic_mults - Vector of algebraic multiplicities for each eigenvalue
-%
-% Output:
-%   A - Generated square matrix with desired properties
-
 validate_input_sizes(eigenvalues, geometric_mults, algebraic_mults);
 
 J = build_jordan_block_matrix(eigenvalues, geometric_mults, algebraic_mults);
@@ -46,7 +33,5 @@ end
 
 function jordan_block = create_jordan_block(lambda, dim)
 jordan_block = diag(lambda * ones(1, dim)) + diag(ones(dim - 1, 1), 1);
-% the first diag creates a matrix = lambda * eye,
-% the second diag creates a matrix with 1s on the superdiagonal
-% (diag of a column of dimension dim - 1 shifted right by 1)
+
 end
